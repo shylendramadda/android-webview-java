@@ -38,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private static AlertDialog alertDialog;
     private WebView webView;
     private static final String TAG = "MainActivity";
-    boolean doubleBackToExitPressedOnce = false;
+    private boolean doubleBackToExitPressedOnce = false;
+    private static int OPEN_SETTINGS_ACTIVITY = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +96,8 @@ public class MainActivity extends AppCompatActivity {
 
         webViewSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 
-        webView.loadUrl("http://www.sevabharathi.org/");
+        String webURL = "http://www.sevabharathi.org/";
+        webView.loadUrl(webURL);
 
         webView.setWebViewClient(new WebViewClient() {
 
@@ -157,8 +159,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void closeApp() {
         if (doubleBackToExitPressedOnce) {
-            moveTaskToBack(true);
-            return;
+            finish();
         }
 
         this.doubleBackToExitPressedOnce = true;
@@ -180,13 +181,13 @@ public class MainActivity extends AppCompatActivity {
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             Intent callWiFiSettingIntent = new Intent(Settings.ACTION_WIFI_SETTINGS);
-                            context.startActivityForResult(callWiFiSettingIntent, 0);
+                            context.startActivityForResult(callWiFiSettingIntent, OPEN_SETTINGS_ACTIVITY);
                         }
                     })
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             alertDialog.dismiss();
-                            System.exit(0);
+                            context.finish();
                         }
                     })
                     .setIcon(android.R.drawable.ic_dialog_alert)
@@ -198,6 +199,15 @@ public class MainActivity extends AppCompatActivity {
             Log.e(TAG, e.getMessage(), e);
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == OPEN_SETTINGS_ACTIVITY) {
+            if (ConnectivityReceiver.isNetworkAvailable(this)) {
+                loadWebView();
+            }
+        }
     }
 
     @Override
