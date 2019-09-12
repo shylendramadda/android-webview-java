@@ -10,7 +10,7 @@ import android.os.Build;
 import android.util.Log;
 
 /**
- * Created by SSV-501 on 04/5/2017.
+ * Created by Shylendra Madda on 04/5/2017.
  */
 
 public class ConnectivityReceiver extends BroadcastReceiver {

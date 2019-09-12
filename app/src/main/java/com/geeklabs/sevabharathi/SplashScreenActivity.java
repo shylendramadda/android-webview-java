@@ -9,15 +9,10 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 /**
- * Created by SSV-501 on 3/7/2017.
+ * Created by Shylendra Madda on 04/5/2017.
  */
 
 public class SplashScreenActivity extends AppCompatActivity {
-
-
-    //duration of wait
-    private final int SPLASH_DISPLAY_LENGTH = 3000;
-    ImageView logo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +25,9 @@ public class SplashScreenActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash_screen);
 
-
         /* New Handler to start the Login-Activity
          * and close this Splash-Screen after some seconds.*/
+        //duration of wait
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -40,7 +35,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 startActivity(mainIntent);
                 finish();
             }
-        }, SPLASH_DISPLAY_LENGTH);
+        }, 3000);
     }
 
     @Override

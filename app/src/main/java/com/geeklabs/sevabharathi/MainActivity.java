@@ -1,5 +1,6 @@
 package com.geeklabs.sevabharathi;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -7,12 +8,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -26,13 +28,16 @@ import android.widget.Toast;
 
 import com.geeklabs.sevabharathi.utils.ConnectivityReceiver;
 
+/**
+ * Created by Shylendra Madda on 04/5/2017.
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     private static ProgressDialog progressDialog;
     private static AlertDialog alertDialog;
     private WebView webView;
     private static final String TAG = "MainActivity";
-    private ProgressDialog progressBar;
     boolean doubleBackToExitPressedOnce = false;
 
     @Override
@@ -47,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        webView = (WebView) findViewById(R.id.webView);
+        webView = findViewById(R.id.webView);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             // chromium, enable hardware acceleration
@@ -64,31 +69,31 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void loadWebView() {
-        WebSettings settings = webView.getSettings();
-        settings.setJavaScriptEnabled(true);
+        WebSettings webViewSettings = webView.getSettings();
         webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
 
         progressDialog = showProgressDialog(this, "Loading..", true);
 
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        webViewSettings.setJavaScriptEnabled(true);
+        webViewSettings.setJavaScriptCanOpenWindowsAutomatically(true);
 
-        webView.getSettings().setSupportMultipleWindows(true);
+        webViewSettings.setSupportMultipleWindows(true);
         webView.setWebViewClient(new WebViewClient());
         webView.setWebChromeClient(new WebChromeClient());
 
-        webView.getSettings().setSupportZoom(true);
-        webView.getSettings().setBuiltInZoomControls(true);
-        webView.getSettings().setDisplayZoomControls(false);
+        webViewSettings.setSupportZoom(true);
+        webViewSettings.setBuiltInZoomControls(true);
+        webViewSettings.setDisplayZoomControls(false);
 
         // to save it in offline
-        webView.getSettings().setAppCachePath(this.getApplicationContext().getCacheDir().getAbsolutePath());
-        webView.getSettings().setAllowFileAccess(true);
-        webView.getSettings().setAppCacheEnabled(true);
-        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT); // load online by default
+        webViewSettings.setAppCachePath(this.getApplicationContext().getCacheDir().getAbsolutePath());
+        webViewSettings.setAllowFileAccess(true);
+        webViewSettings.setAppCacheEnabled(true);
+        webViewSettings.setCacheMode(WebSettings.LOAD_DEFAULT); // load online by default
 
-        webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        webViewSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 
         webView.loadUrl("http://www.sevabharathi.org/");
 
@@ -151,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void closeApp() {
-
         if (doubleBackToExitPressedOnce) {
             moveTaskToBack(true);
             return;
@@ -196,5 +200,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                if (webView.canGoBack()) {
+                    webView.goBack();
+                } else {
+                    onBackPressed();
+                }
+                return true;
+            }
 
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }
