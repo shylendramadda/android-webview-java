@@ -3,14 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.geeklabs.sevabharathi.MainActivity">
+    tools:context="com.geeklabs.webview.activity.MainActivity">
 
-    <WebView
+    <im.delight.android.webview.AdvancedWebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none">
-
-    </WebView>
+        android:scrollbars="none" />
 
 </RelativeLayout>

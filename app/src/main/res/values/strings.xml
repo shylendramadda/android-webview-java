@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">SevaBharatiTelangana</string>
+    <string name="app_name">WebView</string>
+    <string name="received_file">Receiver Screen</string>
 </resources>

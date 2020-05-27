@@ -1,13 +1,10 @@
-package com.geeklabs.sevabharathi.utils;
+package com.geeklabs.webview.utils;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.Network;
 import android.net.NetworkInfo;
-import android.os.Build;
-import android.util.Log;
 
 /**
  * Created by Shylendra Madda on 04/5/2017.
